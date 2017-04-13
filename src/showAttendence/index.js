@@ -38,7 +38,7 @@ class ShowAttendence extends React.Component {
     }
 
     nameHandler(e) {
-        this.setState({name: e.target.value})
+        this.setState({ name: e.target.value })
     }
 
     handleChangeStart(startDate) {
@@ -58,58 +58,89 @@ class ShowAttendence extends React.Component {
             { startDate: this.state.startDate, endDate: this.state.endDate, name: this.state.name },
             { responseType: 'arraybuffer' }
         )
-        .then(function (response) {
-            let file = new Blob([response.data], { type: 'application/pdf' })
-            let fileURL = URL.createObjectURL(file)
-            window.open(fileURL)
-            this.setState({
-                loaderStyle: { display: "none" }
+            .then(function (response) {
+                let file = new Blob([response.data], { type: 'application/pdf' })
+                let fileURL = URL.createObjectURL(file)
+                window.open(fileURL)
+                this.setState({
+                    loaderStyle: { display: "none" }
+                });
+            })
+            .catch(() => {
+                this.setState({
+                    loaderStyle: { display: "none" }
+                });
             });
-        })
-        .catch(() => {
-            this.setState({
-                loaderStyle: { display: "none" }
-            });
+    }
+
+    printReport() {
+        this.setState({
+            loaderStyle: { display: "block" }
         });
+        axios.post(
+            'http://localhost:34836/get-all-detailed/',
+            { startDate: this.state.startDate, endDate: this.state.endDate, name: this.state.name },
+            { responseType: 'arraybuffer' }
+        )
+            .then(function (response) {
+                let file = new Blob([response.data], { type: 'application/pdf' })
+                let fileURL = URL.createObjectURL(file)
+                window.open(fileURL)
+                this.setState({
+                    loaderStyle: { display: "none" }
+                });
+            })
+            .catch(() => {
+                this.setState({
+                    loaderStyle: { display: "none" }
+                });
+            });
     }
 
     render() {
         return (
             <div>
-                <div className="header">
+                {/*<div className="header">
                     <img className="logo" src='https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAO1AAAAJGJkNzUxYTU4LTAyOWMtNGM5ZC05MzdlLWZhZTAzOGE2NzU0MA.png' />
-                </div>
-                <div className="header" style={{"marginTop": "12%"}}>
+                </div>*/}
+                <div className="header" style={{ "marginTop": "12%" }}>
                     <img className="logo" src='http://www.hermesvirtualtour.com/img/loadingVideo.gif' />
                 </div>
                 {
-                    (this.state.loaderStyle.display==="none") &&
+                    (this.state.loaderStyle.display === "none") &&
                     <div className="wrapper" >
-                        <h1>Attendance Report</h1>
-                        <div className="date-range-picker">
-                            <div className="coln-1">
-                                <h2>From</h2>
-                                <DatePicker dateFormat="MMM DD YYYY"
-                                    selected={this.state.startDate}
-                                    startDate={this.state.startDate}
-                                    endDate={this.state.endDate}
-                                    onChange={this.handleChangeStart} />
-                            </div>
-                            <div className="coln-2">
-                                <h2>Employee Name</h2>
-                                <input type="text" onChange={this.nameHandler}/>
-                            </div>
-                            <div className="coln-1">
-                                <h2>To</h2>
-                                <DatePicker dateFormat="MMM DD YYYY"
-                                    selected={this.state.endDate}
-                                    startDate={this.state.startDate}
-                                    endDate={this.state.endDate}
-                                    onChange={this.handleChangeEnd} />
+                        <div className="row1">
+                            <h1>Attendance Report</h1>
+                            <div className="date-range-picker">
+                                <div className="coln-1">
+                                    <h2>From</h2>
+                                    <DatePicker dateFormat="MMM DD YYYY"
+                                        selected={this.state.startDate}
+                                        startDate={this.state.startDate}
+                                        endDate={this.state.endDate}
+                                        onChange={this.handleChangeStart} />
+                                </div>
+                                <div className="coln-2">
+                                    <h2>Employee Name</h2>
+                                    <input type="text" onChange={this.nameHandler} />
+                                </div>
+                                <div className="coln-1">
+                                    <h2>To</h2>
+                                    <DatePicker dateFormat="MMM DD YYYY"
+                                        selected={this.state.endDate}
+                                        startDate={this.state.startDate}
+                                        endDate={this.state.endDate}
+                                        onChange={this.handleChangeEnd} />
+                                </div>
                             </div>
                         </div>
-                        <div className="button-wrap">
-                            <button onClick={this.printReport}>Print</button>
+                        <div className="row2">
+                            <div className="button-wrap">
+                                <button onClick={this.printReport}>Presence</button>
+                            </div>
+                            <div className="button-wrap">
+                                <button onClick={this.printReport}>In-Out</button>
+                            </div>
                         </div>
                     </div>
                 }

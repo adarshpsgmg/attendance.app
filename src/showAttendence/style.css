@@ -1,21 +1,21 @@
 .wrapper {
     width: 70%;
-    width: 80%;
+    width: 60%;
     text-align: center;
-    height: 40%;
-    padding-bottom: 100px;
+    /* height: 40%; */
+    padding-bottom: 6%;
     position: absolute;
-    padding-top: 85px;
-    top: 52%;
+    padding-top: 4%;
+    top: 50%;
     left: 0px;
-    right: 0;
+    right: 0px;
     margin: auto;
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    /* transform: translateY(-50%); */
     background-color: #f7f7f7;
-    border-radius: 59px;
-    box-shadow: 0px 0px 89px rgba(0, 0, 0, 0.3);
+    border-radius: 60px;
+    box-shadow: 0px 0px 60px rgba(0, 0, 0, 0.2);
 }
 
 .date-range-picker {
@@ -129,6 +129,16 @@ button:hover {
 .button-wrap {
     margin-top: 3%;
     position: relative;
+    float: left;
+    width: 50%;
+}
+
+.row1 {
+    height: 60%;
+}
+
+.row2 {
+    height: 40%;
 }
 
 .react-datepicker__day--outside-month {
