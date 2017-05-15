@@ -73,7 +73,7 @@ class ShowAttendence extends React.Component {
             });
     }
 
-    printReport() {
+    printReportDetailed() {
         this.setState({
             loaderStyle: { display: "block" }
         });
@@ -139,7 +139,7 @@ class ShowAttendence extends React.Component {
                                 <button onClick={this.printReport}>Presence</button>
                             </div>
                             <div className="button-wrap">
-                                <button onClick={this.printReport}>In-Out</button>
+                                <button onClick={this.printReportDetailed}>In-Out</button>
                             </div>
                         </div>
                     </div>
