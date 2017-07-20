@@ -60,8 +60,11 @@ class ShowAttendence extends React.Component {
         )
             .then(function (response) {
                 let file = new Blob([response.data], { type: 'application/pdf' })
-                let fileURL = URL.createObjectURL(file)
-                window.open(fileURL)
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    window.open(reader.result);
+                };
+                reader.readAsDataURL(file);
                 this.setState({
                     loaderStyle: { display: "none" }
                 });
