@@ -50,54 +50,17 @@ class ShowAttendence extends React.Component {
     }
 
     printReport() {
-        this.setState({
-            loaderStyle: { display: "block" }
-        });
-        axios.post(
-            'http://localhost:34836/get-all/',
-            { startDate: this.state.startDate, endDate: this.state.endDate, name: this.state.name },
-            { responseType: 'arraybuffer' }
-        )
-            .then(function (response) {
-                let file = new Blob([response.data], { type: 'application/pdf' })
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    window.open(reader.result);
-                };
-                reader.readAsDataURL(file);
-                this.setState({
-                    loaderStyle: { display: "none" }
-                });
-            })
-            .catch(() => {
-                this.setState({
-                    loaderStyle: { display: "none" }
-                });
-            });
+        var s = moment(this.state.startDate).format('MM/DD/YYYY');
+        var e = moment(this.state.endDate).format('MM/DD/YYYY');
+        window.open(`http://localhost:34836/get-all?startDate=${s}&endDate=${e}` +
+            `&name=${this.state.name}`, '_blank');
     }
 
     printReportDetailed() {
-        this.setState({
-            loaderStyle: { display: "block" }
-        });
-        axios.post(
-            'http://localhost:34836/get-all-detailed/',
-            { startDate: this.state.startDate, endDate: this.state.endDate, name: this.state.name },
-            { responseType: 'arraybuffer' }
-        )
-            .then(function (response) {
-                let file = new Blob([response.data], { type: 'application/pdf' })
-                let fileURL = URL.createObjectURL(file)
-                window.open(fileURL)
-                this.setState({
-                    loaderStyle: { display: "none" }
-                });
-            })
-            .catch(() => {
-                this.setState({
-                    loaderStyle: { display: "none" }
-                });
-            });
+        var s = moment(this.state.startDate).format('MM/DD/YYYY');
+        var e = moment(this.state.endDate).format('MM/DD/YYYY');
+        window.open(`http://localhost:34836/get-all-detailed?startDate=${s}&endDate=${e}` +
+            `&name=${this.state.name}`, '_blank');
     }
 
     render() {
